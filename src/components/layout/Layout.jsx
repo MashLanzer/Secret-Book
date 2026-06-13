@@ -9,7 +9,6 @@ export default function Layout() {
   if (loading) return <LoadingScreen message="Abriendo tu libro secreto..." />
   if (!user) return <Navigate to="/login" replace />
   if (!profile) return <Navigate to="/onboarding" replace />
-  if (!profile.coupleId) return <Navigate to="/pair" replace />
 
   return (
     <div className="min-h-screen" style={{ background: 'radial-gradient(ellipse at top, #1a0a2e 0%, #0d0617 70%)' }}>

@@ -21,7 +21,6 @@ function RootRedirect() {
   if (loading) return <LoadingScreen message="Abriendo tu libro..." />
   if (!user) return <Navigate to="/login" replace />
   if (!profile) return <Navigate to="/onboarding" replace />
-  if (!profile.coupleId) return <Navigate to="/pair" replace />
   return <Navigate to="/app/dashboard" replace />
 }
 
@@ -31,7 +30,6 @@ function AppRoutes() {
       <Route path="/" element={<RootRedirect />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
-      <Route path="/pair" element={<PairPage />} />
 
       <Route path="/app" element={<Layout />}>
         <Route index element={<Navigate to="/app/dashboard" replace />} />
@@ -43,6 +41,7 @@ function AppRoutes() {
         <Route path="achievements" element={<AchievementsPage />} />
         <Route path="stats" element={<StatsPage />} />
         <Route path="profile" element={<ProfilePage />} />
+        <Route path="pair" element={<PairPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

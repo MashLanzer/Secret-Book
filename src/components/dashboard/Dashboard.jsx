@@ -61,6 +61,33 @@ export default function Dashboard() {
         </Link>
       </motion.div>
 
+      {/* Pair banner */}
+      {!profile?.coupleId && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="mb-5"
+        >
+          <Link to="/app/pair">
+            <div
+              className="p-4 rounded-2xl flex items-center gap-3"
+              style={{
+                background: 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.2))',
+                border: '1px solid rgba(168,85,247,0.4)',
+              }}
+            >
+              <span className="text-2xl">💑</span>
+              <div className="flex-1">
+                <p className="text-white font-semibold text-sm">Conecta con tu pareja</p>
+                <p className="text-white/40 text-xs">Vincula tu cuenta para compartir el libro</p>
+              </div>
+              <span className="text-purple-400">›</span>
+            </div>
+          </Link>
+        </motion.div>
+      )}
+
       {/* Progress banner */}
       <motion.div
         className="glass-card p-5 mb-5"

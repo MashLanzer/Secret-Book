@@ -151,6 +151,33 @@ export default function ProfilePage() {
         </div>
       </motion.div>
 
+      {/* Pair banner when not connected */}
+      {!profile?.coupleId && (
+        <motion.div
+          className="mb-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.25 }}
+        >
+          <Link to="/app/pair">
+            <div
+              className="p-5 rounded-2xl flex items-center gap-4"
+              style={{
+                background: 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.2))',
+                border: '1px solid rgba(168,85,247,0.35)',
+              }}
+            >
+              <span className="text-3xl">💑</span>
+              <div className="flex-1">
+                <p className="text-white font-semibold">Conectar pareja</p>
+                <p className="text-white/50 text-xs">Vincula tu cuenta para compartir el libro</p>
+              </div>
+              <span className="text-purple-400 text-lg">›</span>
+            </div>
+          </Link>
+        </motion.div>
+      )}
+
       {/* Quick links */}
       <motion.div
         className="glass-card mb-4 overflow-hidden"
