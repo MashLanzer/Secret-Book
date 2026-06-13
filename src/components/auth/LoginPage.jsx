@@ -24,14 +24,11 @@ export default function LoginPage() {
     setLoading(true)
     try {
       if (Capacitor.isNativePlatform()) {
-        const { GoogleAuth } = await import('@codetrix-studio/capacitor-google-auth')
-        await GoogleAuth.initialize({
-          scopes: ['profile', 'email'],
-          grantOfflineAccess: true,
-        })
-        const googleUser = await GoogleAuth.signIn()
-        const idToken = googleUser.authentication?.idToken
-        if (!idToken) throw new Error('No se obtuvo idToken de Google')
+        const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication')
+        // skipNativeAuth:true → obtenemos el credential y firmamos con el web SDK
+        const result = await FirebaseAuthentication.signInWithGoogle()
+        const idToken = result.credential?.idToken
+        if (!idToken) throw new Error('No se obtuvo idToken')
         const credential = GoogleAuthProvider.credential(idToken)
         await signInWithCredential(auth, credential)
       } else {
@@ -39,8 +36,8 @@ export default function LoginPage() {
       }
       navigate('/')
     } catch (e) {
-      console.error(e)
-      setError(`Error: ${e.code || e.message}`)
+      console.error('Auth error:', e)
+      setError(`${e.code || e.message || JSON.stringify(e)}`)
       setLoading(false)
     }
   }

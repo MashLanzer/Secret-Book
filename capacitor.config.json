@@ -9,10 +9,9 @@
     "SplashScreen": {
       "launchShowDuration": 0
     },
-    "GoogleAuth": {
-      "scopes": ["profile", "email"],
-      "serverClientId": "1030121105757-i32dcpk35i241cv0aolhpt9io4a96of7.apps.googleusercontent.com",
-      "forceCodeForRefreshToken": true
+    "FirebaseAuthentication": {
+      "skipNativeAuth": true,
+      "providers": ["google.com"]
     }
   }
 }
