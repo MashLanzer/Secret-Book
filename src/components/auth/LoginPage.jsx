@@ -25,6 +25,10 @@ export default function LoginPage() {
     try {
       if (Capacitor.isNativePlatform()) {
         const { GoogleAuth } = await import('@codetrix-studio/capacitor-google-auth')
+        await GoogleAuth.initialize({
+          scopes: ['profile', 'email'],
+          grantOfflineAccess: true,
+        })
         const googleUser = await GoogleAuth.signIn()
         const idToken = googleUser.authentication?.idToken
         if (!idToken) throw new Error('No se obtuvo idToken de Google')
