@@ -25,8 +25,7 @@ export default function LoginPage() {
     try {
       if (Capacitor.isNativePlatform()) {
         const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication')
-        // skipNativeAuth:true → obtenemos el credential y firmamos con el web SDK
-        const result = await FirebaseAuthentication.signInWithGoogle()
+        const result = await FirebaseAuthentication.signInWithGoogle({ useCredentialManager: false })
         const idToken = result.credential?.idToken
         if (!idToken) throw new Error('No se obtuvo idToken')
         const credential = GoogleAuthProvider.credential(idToken)
@@ -37,7 +36,7 @@ export default function LoginPage() {
       navigate('/')
     } catch (e) {
       console.error('Auth error:', e)
-      setError(`${e.code || e.message || JSON.stringify(e)}`)
+      setError(`${e.code ? `[${e.code}] ` : ''}${e.message || JSON.stringify(e)}`)
       setLoading(false)
     }
   }
