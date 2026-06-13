@@ -16,3 +16,17 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+
+.vercel
+
+# Android build artifacts
+android/app/build/
+android/.gradle/
+android/local.properties
+android/captures/
+
+# Keystore (NEVER commit — use GitHub Secrets)
+*.keystore
+*.jks
+keystore_base64.txt
+secretbook.keystore.b64
