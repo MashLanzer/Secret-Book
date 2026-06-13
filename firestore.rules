@@ -15,32 +15,45 @@ service cloud.firestore {
       return request.auth.uid in parts;
     }
 
+    // Perfiles de usuario
     match /users/{userId} {
       allow read: if isAuthenticated();
       allow write: if isOwner(userId);
+
+      // Experiencias personales
+      match /experiences/{positionId} {
+        allow read: if isAuthenticated();
+        allow write: if isOwner(userId);
+      }
     }
 
+    // Códigos de invitación para vincular parejas
+    match /invites/{code} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+    }
+
+    // Datos compartidos de la pareja
     match /couples/{coupleId} {
       allow read: if isAuthenticated() && isCoupleUser(coupleId);
       allow create: if isAuthenticated() && isCoupleUser(coupleId);
       allow update: if isAuthenticated() && isCoupleUser(coupleId);
+
+      // Historial de actividad
+      match /history/{historyId} {
+        allow read: if isAuthenticated() && isCoupleUser(coupleId);
+        allow write: if isAuthenticated() && isCoupleUser(coupleId);
+      }
+
+      // Logros desbloqueados
+      match /achievements/{achievementId} {
+        allow read: if isAuthenticated() && isCoupleUser(coupleId);
+        allow write: if isAuthenticated() && isCoupleUser(coupleId);
+      }
     }
 
-    match /couples/{coupleId}/history/{historyId} {
-      allow read: if isAuthenticated() && isCoupleUser(coupleId);
-      allow write: if isAuthenticated() && isCoupleUser(coupleId);
-    }
-
-    match /couples/{coupleId}/achievements/{achievementId} {
-      allow read: if isAuthenticated() && isCoupleUser(coupleId);
-      allow write: if isAuthenticated() && isCoupleUser(coupleId);
-    }
-
-    match /users/{userId}/experiences/{positionId} {
-      allow read: if isAuthenticated();
-      allow write: if isOwner(userId);
-    }
-
+    // Posiciones personalizadas de la pareja
     match /customPositions/{coupleId}/items/{positionId} {
       allow read: if isAuthenticated() && isCoupleUser(coupleId);
       allow write: if isAuthenticated() && isCoupleUser(coupleId);

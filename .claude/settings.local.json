@@ -2,7 +2,17 @@
   "permissions": {
     "allow": [
       "mcp__visualize__read_me",
-      "mcp__visualize__show_widget"
+      "mcp__visualize__show_widget",
+      "mcp__dd0ae5b0-61a0-432d-9da3-ea92f9032a10__deploy_to_vercel",
+      "PowerShell(vercel --version 2>&1)",
+      "Bash(firebase --version)",
+      "Bash(firebase deploy *)",
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(npm install *)",
+      "Bash(npx cap *)"
     ]
   }
 }
