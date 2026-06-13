@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { signInWithPopup, signInWithRedirect, getRedirectResult } from 'firebase/auth'
+import { signInWithPopup, getRedirectResult, GoogleAuthProvider, signInWithCredential } from 'firebase/auth'
 import { auth, googleProvider } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { Capacitor } from '@capacitor/core'
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -12,36 +13,30 @@ export default function LoginPage() {
   useEffect(() => {
     getRedirectResult(auth)
       .then(result => {
-        if (result?.user) {
-          navigate('/')
-        } else {
-          setLoading(false)
-        }
+        if (result?.user) navigate('/')
+        else setLoading(false)
       })
-      .catch(e => {
-        console.error('Redirect result error:', e)
-        setLoading(false)
-      })
+      .catch(() => setLoading(false))
   }, [])
 
   const handleGoogle = async () => {
     setError('')
     setLoading(true)
     try {
-      await signInWithPopup(auth, googleProvider)
+      if (Capacitor.isNativePlatform()) {
+        // Native Android Google Sign-In (no browser, stays in app)
+        const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication')
+        const result = await FirebaseAuthentication.signInWithGoogle()
+        const credential = GoogleAuthProvider.credential(result.credential?.idToken)
+        await signInWithCredential(auth, credential)
+      } else {
+        await signInWithPopup(auth, googleProvider)
+      }
       navigate('/')
     } catch (e) {
-      if (e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user') {
-        try {
-          await signInWithRedirect(auth, googleProvider)
-        } catch (e2) {
-          setError(`Error: ${e2.code}`)
-          setLoading(false)
-        }
-      } else {
-        setError(`Error: ${e.code}`)
-        setLoading(false)
-      }
+      console.error(e)
+      setError(`Error: ${e.code || e.message}`)
+      setLoading(false)
     }
   }
 
