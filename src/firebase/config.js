@@ -3,15 +3,14 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 
-const clean = (val) => (val || '').replace(/^﻿/, '').trim()
-
 const firebaseConfig = {
-  apiKey: clean(import.meta.env.VITE_FIREBASE_API_KEY),
-  authDomain: clean(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN),
-  projectId: clean(import.meta.env.VITE_FIREBASE_PROJECT_ID),
-  storageBucket: clean(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET),
-  messagingSenderId: clean(import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID),
-  appId: clean(import.meta.env.VITE_FIREBASE_APP_ID),
+  apiKey: "AIzaSyDX6sWEucwkrsYco-c6ubxVXoYH5Y5Liow",
+  authDomain: "secretbook-5b1ff.firebaseapp.com",
+  projectId: "secretbook-5b1ff",
+  storageBucket: "secretbook-5b1ff.firebasestorage.app",
+  messagingSenderId: "1030121105757",
+  appId: "1:1030121105757:web:b07c2bf8276e58ee9ce0b4",
+  measurementId: "G-CZVSYJSRNT",
 }
 
 const app = initializeApp(firebaseConfig)
