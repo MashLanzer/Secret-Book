@@ -12,11 +12,14 @@ export default function LoginPage() {
   useEffect(() => {
     getRedirectResult(auth)
       .then(result => {
-        if (result?.user) navigate('/onboarding')
-        else setLoading(false)
+        if (result?.user) {
+          navigate('/')
+        } else {
+          setLoading(false)
+        }
       })
       .catch(e => {
-        setError(`Error: ${e.code}`)
+        console.error('Redirect result error:', e)
         setLoading(false)
       })
   }, [])
@@ -25,10 +28,20 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
     try {
-      await signInWithRedirect(auth, googleProvider)
+      await signInWithPopup(auth, googleProvider)
+      navigate('/')
     } catch (e) {
-      setError(`Error: ${e.code}`)
-      setLoading(false)
+      if (e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user') {
+        try {
+          await signInWithRedirect(auth, googleProvider)
+        } catch (e2) {
+          setError(`Error: ${e2.code}`)
+          setLoading(false)
+        }
+      } else {
+        setError(`Error: ${e.code}`)
+        setLoading(false)
+      }
     }
   }
 
@@ -93,7 +106,7 @@ export default function LoginPage() {
 
           {error && (
             <div className="mt-4 p-3 rounded-xl" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)' }}>
-              <p className="text-red-400 text-xs text-center font-mono">{error}</p>
+              <p className="text-red-400 text-xs text-center font-mono break-all">{error}</p>
             </div>
           )}
         </div>

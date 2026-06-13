@@ -2,13 +2,10 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import LoadingScreen from './components/ui/LoadingScreen'
 
-// Auth
-import CamouflagePage from './components/auth/CamouflagePage'
 import LoginPage from './components/auth/LoginPage'
 import OnboardingPage from './components/auth/OnboardingPage'
 import PairPage from './components/auth/PairPage'
 
-// App
 import Layout from './components/layout/Layout'
 import Dashboard from './components/dashboard/Dashboard'
 import CatalogPage from './components/catalog/CatalogPage'
