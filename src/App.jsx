@@ -22,8 +22,6 @@ import ProfilePage from './components/profile/ProfilePage'
 function RootRedirect() {
   const { user, profile, loading } = useAuth()
   if (loading) return <LoadingScreen message="Abriendo tu libro..." />
-  const unlocked = sessionStorage.getItem('sb_unlocked')
-  if (!unlocked) return <CamouflagePage />
   if (!user) return <Navigate to="/login" replace />
   if (!profile) return <Navigate to="/onboarding" replace />
   if (!profile.coupleId) return <Navigate to="/pair" replace />
