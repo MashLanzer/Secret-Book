@@ -24,10 +24,14 @@ export default function LoginPage() {
     setLoading(true)
     try {
       if (Capacitor.isNativePlatform()) {
-        // Native Android Google Sign-In (no browser, stays in app)
-        const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication')
-        const result = await FirebaseAuthentication.signInWithGoogle()
-        const credential = GoogleAuthProvider.credential(result.credential?.idToken)
+        const { GoogleAuth } = await import('@codetrix-studio/capacitor-google-auth')
+        await GoogleAuth.initialize({
+          clientId: '1030121105757-i32dcpk35i241cv0aolhpt9io4a96of7.apps.googleusercontent.com',
+          scopes: ['profile', 'email'],
+          grantOfflineAccess: true,
+        })
+        const googleUser = await GoogleAuth.signIn()
+        const credential = GoogleAuthProvider.credential(googleUser.authentication.idToken)
         await signInWithCredential(auth, credential)
       } else {
         await signInWithPopup(auth, googleProvider)

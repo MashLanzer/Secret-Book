@@ -13,7 +13,10 @@
       "Bash(git push *)",
       "Bash(npm install *)",
       "Bash(npx cap *)",
-      "Bash(gh workflow *)"
+      "Bash(gh workflow *)",
+      "Bash(gh run *)",
+      "Bash(npm uninstall *)",
+      "Bash(npm list *)"
     ]
   }
 }
