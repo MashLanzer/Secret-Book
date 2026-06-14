@@ -18,6 +18,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: null,
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'Secret Book',
@@ -36,6 +37,7 @@ export default defineConfig({
         ]
       },
       workbox: {
+        cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {

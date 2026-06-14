@@ -16,6 +16,18 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Emergency: if a chunk fails (stale SW after APK update), unregister SW and reload -->
+    <script>
+      window.addEventListener('unhandledrejection', function(e) {
+        var msg = e.reason && (e.reason.message || String(e.reason))
+        if (msg && msg.indexOf('dynamically imported module') !== -1 && 'serviceWorker' in navigator) {
+          e.preventDefault()
+          navigator.serviceWorker.getRegistrations().then(function(rs) {
+            return Promise.all(rs.map(function(r) { return r.unregister() }))
+          }).then(function() { location.reload() })
+        }
+      })
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

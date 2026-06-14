@@ -39,7 +39,7 @@ export default function OnboardingPage() {
         createdAt: serverTimestamp(),
       }, { merge: true })
       await refreshProfile(user.uid)
-      navigate('/pair')
+      navigate('/app/pair')
     } finally {
       setSaving(false)
     }
