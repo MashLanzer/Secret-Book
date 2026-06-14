@@ -4,6 +4,7 @@ import { auth, googleProvider } from '../../firebase/config'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Capacitor } from '@capacitor/core'
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication'
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -24,7 +25,6 @@ export default function LoginPage() {
     setLoading(true)
     try {
       if (Capacitor.isNativePlatform()) {
-        const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication')
         const result = await FirebaseAuthentication.signInWithGoogle({ useCredentialManager: false })
         const idToken = result.credential?.idToken
         if (!idToken) throw new Error('No se obtuvo idToken')
