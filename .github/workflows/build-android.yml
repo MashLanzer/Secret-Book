@@ -46,10 +46,7 @@ jobs:
         run: npx cap sync android
 
       - name: Decode keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > /tmp/secretbook.keystore
-          echo "=== SHA1 & SHA256 fingerprints ==="
-          keytool -list -v -keystore /tmp/secretbook.keystore -storepass ${{ secrets.KEYSTORE_PASSWORD }} -J"-Duser.language=en" 2>&1 | grep -i "SHA"
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > /tmp/secretbook.keystore
 
       - name: Write google-services.json
         run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > android/app/google-services.json
@@ -66,6 +63,11 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Show APK signing certificate fingerprints
+        run: |
+          APK=android/app/build/outputs/apk/release/app-release.apk
+          $ANDROID_HOME/build-tools/35.0.0/apksigner verify --print-certs "$APK" | grep -i "digest"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
